@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api'
+  baseURL: 'https://church-management-system-backend-20ks.onrender.com/api'
 })
 
 // Automatically attach JWT token to every request
