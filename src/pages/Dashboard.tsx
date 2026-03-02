@@ -55,7 +55,8 @@ const Dashboard = () => {
   }, [user]);
 
   // ✅ Run On Mount
-  useEffect(() => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+useEffect(() => {
     fetchVerse();
     fetchStats();
   }, [fetchVerse, fetchStats]);
