@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar'
 import API from '../api/axios'
 
-interface Finance {
+interface FinanceItem {
   id: string
   title: string
   amount: number
@@ -18,7 +18,7 @@ interface Summary {
 }
 
 const Finance = () => {
-  const [finances, setFinances] = useState<Finance[]>([])
+  const [finances, setFinances] = useState<FinanceItem[]>([])
   const [summary, setSummary] = useState<Summary>({ totalIncome: 0, totalExpense: 0, balance: 0 })
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
