@@ -34,14 +34,21 @@ const Login = () => {
       fontFamily: 'Georgia, serif'
     }}>
       <div style={{ textAlign: 'center', width: '100%', maxWidth: '420px', padding: '0 20px' }}>
+
+      {/* Church Logo */}
+    <img
+     src="/afm-logo.png"
+     alt="AFM Logo"
+     style={{
+     width: '90px',
+     margin: '0 auto 16px',
+     display: 'block'
+    }}
+    />
         
-        {/* Church Logo */}
-        <div style={{
-          width: '80px', height: '80px', borderRadius: '50%',
-          background: '#f0a500', margin: '0 auto 16px',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '36px'
-        }}>✝️</div>
+      
+  
+        
 
         <h1 style={{ color: 'white', fontSize: '24px', letterSpacing: '2px', marginBottom: '4px' }}>
           Apostolic Faith Mission
