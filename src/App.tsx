@@ -9,6 +9,7 @@ import Visitors from './pages/Visitors'
 import Home from './pages/Home'
 import Finance from './pages/Finance'
 import Announcements from './pages/Announcements'
+import AnnouncementsPublic from './pages/AnnouncementsPublic'
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           <Route path="/" element={<Home />} />  
           <Route path="/announcements-public" element={<Announcements />} />
           <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/announcements-public" element={<AnnouncementsPublic />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
