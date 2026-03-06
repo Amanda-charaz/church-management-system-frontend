@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Members from './pages/Members'
 import Visitors from './pages/Visitors'
+import Home from './pages/Home'
 import Finance from './pages/Finance'
 import Announcements from './pages/Announcements'
 
@@ -51,8 +52,9 @@ function App() {
           } />
 
           {/* Default redirect */}
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/" element={<Home />} />  
+          <Route path="/announcements-public" element={<Announcements />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
