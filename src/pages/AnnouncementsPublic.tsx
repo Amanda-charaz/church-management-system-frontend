@@ -3,20 +3,25 @@ import API from '../api/axios'
 
 const AnnouncementsPublic = () => {
   const [announcements, setAnnouncements] = useState<any[]>([])
+  const [verse, setVerse] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchAnnouncements = async () => {
+    const fetchData = async () => {
       try {
-        const res = await API.get('/announcements')
-        setAnnouncements(res.data.announcements)
+        const [announcementsRes, verseRes] = await Promise.all([
+          API.get('/announcements'),
+          API.get('/verse')
+        ])
+        setAnnouncements(announcementsRes.data.announcements)
+        setVerse(verseRes.data.verse)
       } catch (err) {
-        console.error('Error fetching announcements:', err)
+        console.error('Error fetching data:', err)
       } finally {
         setLoading(false)
       }
     }
-    fetchAnnouncements()
+    fetchData()
   }, [])
 
   return (
@@ -40,10 +45,23 @@ const AnnouncementsPublic = () => {
         </div>
       </div>
 
-      {/* Announcements */}
       <div style={{ padding: '32px', maxWidth: '800px', margin: '0 auto' }}>
+
+        {/* Daily Verse */}
+        {verse && (
+          <div style={{
+            background: 'rgba(255,255,255,0.1)', borderRadius: '12px',
+            padding: '24px', marginBottom: '24px', color: 'white'
+          }}>
+            <h3 style={{ color: '#f0a500', margin: '0 0 8px' }}>📖 Daily Verse</h3>
+            <p style={{ fontStyle: 'italic', margin: '0 0 8px' }}>"{verse.text}"</p>
+            <p style={{ color: '#f0a500', margin: 0 }}>— {verse.reference}</p>
+          </div>
+        )}
+
+        {/* Announcements */}
         {loading ? (
-          <p style={{ color: 'white', textAlign: 'center' }}>Loading announcements...</p>
+          <p style={{ color: 'white', textAlign: 'center' }}>Loading...</p>
         ) : announcements.length === 0 ? (
           <p style={{ color: 'white', textAlign: 'center' }}>No announcements yet.</p>
         ) : announcements.map((a: any) => (

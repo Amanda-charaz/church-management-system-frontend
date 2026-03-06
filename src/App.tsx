@@ -6,9 +6,9 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Members from './pages/Members'
 import Visitors from './pages/Visitors'
-import Home from './pages/Home'
 import Finance from './pages/Finance'
 import Announcements from './pages/Announcements'
+import Home from './pages/Home'
 import AnnouncementsPublic from './pages/AnnouncementsPublic'
 
 function App() {
@@ -17,16 +17,17 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Public Routes */}
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/announcements-public" element={<AnnouncementsPublic />} />
 
-          {/* Protected Routes - All logged in users */}
+          {/* Protected Routes */}
           <Route path="/dashboard" element={
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
           } />
 
-          {/* ADMIN and PASTOR only */}
           <Route path="/members" element={
             <ProtectedRoute allowedRoles={['ADMIN', 'PASTOR']}>
               <Members />
@@ -45,18 +46,13 @@ function App() {
             </ProtectedRoute>
           } />
 
-          {/* ADMIN and FINANCE only */}
           <Route path="/finance" element={
             <ProtectedRoute allowedRoles={['ADMIN', 'FINANCE']}>
               <Finance />
             </ProtectedRoute>
           } />
 
-          {/* Default redirect */}
-          <Route path="/" element={<Home />} />  
-          <Route path="/announcements-public" element={<Announcements />} />
           <Route path="*" element={<Navigate to="/" replace />} />
-          <Route path="/announcements-public" element={<AnnouncementsPublic />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
