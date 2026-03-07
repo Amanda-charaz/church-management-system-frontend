@@ -44,12 +44,10 @@ const Login = () => {
      margin: '0 auto 16px',
      display: 'block'
     }}
-    />
-        
+    /> 
       
   
         
-
         <h1 style={{ color: 'white', fontSize: '24px', letterSpacing: '2px', marginBottom: '4px' }}>
           Apostolic Faith Mission
         </h1>
@@ -58,7 +56,7 @@ const Login = () => {
         {/* Login Card */}
         <div style={{
           background: 'white', borderRadius: '12px',
-          padding: '40px', boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
+          padding: '40px', boxShadow: '0 20px 60px rgba(0, 0, 0, 0.38)'
         }}>
           <h2 style={{ marginBottom: '24px', color: '#1a2a4a' }}>Welcome Back</h2>
 
