@@ -78,7 +78,7 @@ const Home = () => {
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           {['home', 'about', 'announcements', 'services', 'visit'].map(section => (
             <button key={section} onClick={() => scrollTo(section)} style={{
-              background: 'none', border: 'none', cursor: 'pointer',
+              border: 'none', cursor: 'pointer',
               padding: '8px 16px', borderRadius: '20px', fontSize: '14px',
               color: activeSection === section ? 'white' : '#1a2a4a',
               background: activeSection === section ? '#e67e22' : 'none',
