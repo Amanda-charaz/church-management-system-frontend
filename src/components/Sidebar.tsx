@@ -19,6 +19,8 @@ const Sidebar = () => {
     { path: '/finance', label: 'Finance', icon: '💰', roles: ['ADMIN', 'FINANCE'] },
     { path: '/announcements', label: 'Announcements', icon: '📢', roles: ['ADMIN', 'PASTOR'] },
     { path: '/events', label: 'Events', icon: '📅', roles: ['ADMIN', 'PASTOR'] },
+    { path: '/prayer-requests', label: 'Prayer Requests', icon: '🙏', roles: ['ADMIN', 'PASTOR'] },
+    
 
   ]
 
