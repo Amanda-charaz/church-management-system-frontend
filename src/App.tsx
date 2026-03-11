@@ -9,6 +9,7 @@ import Members from './pages/Members'
 import Visitors from './pages/Visitors'
 import Finance from './pages/Finance'
 import Announcements from './pages/Announcements'
+import Events from './pages/Events'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/visitors" element={<ProtectedRoute><Visitors /></ProtectedRoute>} />
           <Route path="/announcements" element={<ProtectedRoute><Announcements /></ProtectedRoute>} />
           <Route path="/finance" element={<ProtectedRoute><Finance /></ProtectedRoute>} />
+          <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

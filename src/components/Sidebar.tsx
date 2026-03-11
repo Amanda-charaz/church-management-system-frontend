@@ -18,6 +18,8 @@ const Sidebar = () => {
     { path: '/visitors', label: 'Visitors', icon: '🙋', roles: ['ADMIN', 'PASTOR'] },
     { path: '/finance', label: 'Finance', icon: '💰', roles: ['ADMIN', 'FINANCE'] },
     { path: '/announcements', label: 'Announcements', icon: '📢', roles: ['ADMIN', 'PASTOR'] },
+    { path: '/events', label: 'Events', icon: '📅', roles: ['ADMIN', 'PASTOR'] },
+
   ]
 
   const filteredMenu = menuItems.filter(item => 
