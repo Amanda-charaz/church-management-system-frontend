@@ -336,6 +336,11 @@ const fetchEvents = async () => {
           )}
         </div>
       </section>
+      <button onClick={() => navigate('/prayer-request')} style={{
+  padding: '16px 32px', background: 'transparent', color: 'white',
+  border: '2px solid white', borderRadius: '30px', cursor: 'pointer',
+  fontSize: '16px', fontWeight: 'bold'
+}}>🙏 Prayer Request</button>
 
       {/* FOOTER */}
       <footer style={{
