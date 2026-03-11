@@ -17,10 +17,22 @@ const Home = () => {
   const [activeSection, setActiveSection] = useState('home')
   const navigate = useNavigate()
 
-  useEffect(() => {
-    fetchAnnouncements()
-    fetchVerse()
-  }, [])
+  const [events, setEvents] = useState<any[]>([])
+
+useEffect(() => {
+  fetchAnnouncements()
+  fetchVerse()
+  fetchEvents()
+}, [])
+
+const fetchEvents = async () => {
+  try {
+    const res = await API.get('/events')
+    setEvents(res.data.events || [])
+  } catch (err) {
+    console.error('Error fetching events:', err)
+  }
+}
 
   const fetchAnnouncements = async () => {
     try {
@@ -76,7 +88,7 @@ const Home = () => {
           </div>
         </div>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          {['home', 'about', 'announcements', 'services', 'visit'].map(section => (
+          {['home', 'about', 'events', 'announcements', 'services', 'visit'].map(section => (
             <button key={section} onClick={() => scrollTo(section)} style={{
               border: 'none', cursor: 'pointer',
               padding: '8px 16px', borderRadius: '20px', fontSize: '14px',
@@ -150,9 +162,9 @@ const Home = () => {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
             {[
-              { icon: '🙏', title: 'Our Mission', text: 'We are committed to spreading the Gospel of Jesus Christ, nurturing believers, and serving our community with love and compassion.' },
-              { icon: '👁️', title: 'Our Vision', text: 'To be a thriving church community that transforms lives through the power of the Holy Spirit and the Word of God.' },
-              { icon: '❤️', title: 'Our Values', text: 'Faith, Love, Unity, Service and Holiness are the core values that guide our church family in everything we do.' }
+              { icon: '🙏', title: 'Our Mission', text: 'To evangelise the world, plant churches, and make disciples of all nations through the power of the Holy Spirit as commanded by our Lord Jesus Christ.' },
+              { icon: '👁️', title: 'Our Vision', text: 'A Spirit-filled church transforming Zimbabwe and beyond — reaching every community with the Gospel and raising up a holy generation for God.' },
+              { icon: '❤️', title: 'Our Values', text: 'Founded in Zimbabwe, AFM stands on the foundation of Holiness, Prayer, Evangelism, Fellowship and the Word of God as our guiding pillars.' }
             ].map((item, i) => (
               <div key={i} style={{
                 background: '#fffaf5', borderRadius: '16px', padding: '32px',
@@ -225,6 +237,39 @@ const Home = () => {
           )}
         </div>
       </section>
+      {/* EVENTS */}
+<section id="events" style={{ padding: '80px 40px', background: 'white' }}>
+  <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+    <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+      <div style={{ color: '#e67e22', fontSize: '13px', letterSpacing: '3px', marginBottom: '8px' }}>WHAT'S COMING</div>
+      <h2 style={{ fontSize: '40px', color: '#1a2a4a', margin: 0 }}>Upcoming Events</h2>
+      <div style={{ width: '60px', height: '4px', background: '#e67e22', margin: '16px auto 0', borderRadius: '2px' }} />
+    </div>
+    {events.length === 0 ? (
+      <div style={{ textAlign: 'center', color: '#999', padding: '40px' }}>No upcoming events at the moment.</div>
+    ) : (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+        {events.filter(e => new Date(e.date) >= new Date()).map((event, i) => (
+          <div key={event.id} style={{
+            background: '#fffaf5', borderRadius: '16px', padding: '28px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+            borderLeft: `4px solid ${i % 2 === 0 ? '#e67e22' : '#1a2a4a'}`
+          }}>
+            <h3 style={{ color: '#1a2a4a', fontSize: '20px', margin: '0 0 12px' }}>{event.title}</h3>
+            <div style={{ display: 'flex', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+              <span style={{ color: '#e67e22', fontSize: '14px', fontWeight: 'bold' }}>
+                📅 {new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+              </span>
+              {event.time && <span style={{ color: '#6b7280', fontSize: '14px' }}>🕐 {event.time}</span>}
+              {event.location && <span style={{ color: '#6b7280', fontSize: '14px' }}>📍 {event.location}</span>}
+            </div>
+            {event.description && <p style={{ color: '#666', lineHeight: 1.7, margin: 0 }}>{event.description}</p>}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
 
       {/* VISITOR REGISTRATION */}
       <section id="visit" style={{ padding: '80px 40px', background: 'white' }}>
