@@ -10,7 +10,6 @@ import Visitors from './pages/Visitors'
 import Finance from './pages/Finance'
 import Announcements from './pages/Announcements'
 import Events from './pages/Events'
-import prayerRoutes from "./routes/prayerRoutes"
 import PrayerRequest from './pages/PrayerRequest'
 import PrayerRequests from './pages/PrayerRequests'
 
@@ -28,7 +27,8 @@ function App() {
           <Route path="/announcements" element={<ProtectedRoute><Announcements /></ProtectedRoute>} />
           <Route path="/finance" element={<ProtectedRoute><Finance /></ProtectedRoute>} />
           <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
-          <Route path="/prayer" element={<ProtectedRoute><Prayer /></ProtectedRoute>} />
+          <Route path="/prayer-requests" element={<ProtectedRoute><PrayerRequests /></ProtectedRoute>} />
+         
         </Routes>
       </BrowserRouter>
     </AuthProvider>
