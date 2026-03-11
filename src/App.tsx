@@ -21,6 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/prayer-request" element={<PrayerRequest />} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/members" element={<ProtectedRoute><Members /></ProtectedRoute>} />
           <Route path="/visitors" element={<ProtectedRoute><Visitors /></ProtectedRoute>} />
