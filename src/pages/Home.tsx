@@ -148,6 +148,12 @@ const fetchEvents = async () => {
               border: '2px solid white', borderRadius: '30px', cursor: 'pointer',
               fontSize: '16px', fontWeight: 'bold'
             }}>View Announcements</button>
+            <button onClick={() => navigate('/prayer-request')} style={{
+              padding: '16px 32px', background: 'transparent', color: 'white',
+              border: '2px solid #f0a500', borderRadius: '30px', cursor: 'pointer',
+              fontSize: '16px', fontWeight: 'bold', color: '#f0a500'
+            }}>🙏 Prayer Request</button>
+            </div>
           </div>
         </div>
       </section>
