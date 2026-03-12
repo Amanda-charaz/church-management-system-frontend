@@ -10,8 +10,9 @@ import Visitors from './pages/Visitors'
 import Finance from './pages/Finance'
 import Announcements from './pages/Announcements'
 import Events from './pages/Events'
-import PrayerRequest from './pages/PrayerRequest'
 import PrayerRequests from './pages/PrayerRequests'
+import PrayerRequest from './pages/PrayerRequest'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 
 function App() {
