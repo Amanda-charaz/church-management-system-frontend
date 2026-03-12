@@ -167,4 +167,4 @@ const PrayerRequests = () => {
   )
 }
 
-export default PrayerRequestsv
+export default PrayerRequests
