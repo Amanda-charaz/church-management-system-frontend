@@ -15,24 +15,23 @@ const Home = () => {
   const [visitorForm, setVisitorForm] = useState({ firstName: '', lastName: '', email: '', phone: '' })
   const [submitted, setSubmitted] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const [events, setEvents] = useState<any[]>([])
   const navigate = useNavigate()
 
-  const [events, setEvents] = useState<any[]>([])
+  useEffect(() => {
+    fetchAnnouncements()
+    fetchVerse()
+    fetchEvents()
+  }, [])
 
-useEffect(() => {
-  fetchAnnouncements()
-  fetchVerse()
-  fetchEvents()
-}, [])
-
-const fetchEvents = async () => {
-  try {
-    const res = await API.get('/events')
-    setEvents(res.data.events || [])
-  } catch (err) {
-    console.error('Error fetching events:', err)
+  const fetchEvents = async () => {
+    try {
+      const res = await API.get('/events')
+      setEvents(res.data.events || [])
+    } catch (err) {
+      console.error('Error fetching events:', err)
+    }
   }
-}
 
   const fetchAnnouncements = async () => {
     try {
@@ -81,7 +80,7 @@ const fetchEvents = async () => {
         height: '70px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <img src="/afm-logo.png" alt="AFM" style={{ height: '45px' }} onError={(e: any) => e.target.style.display='none'} />
+          <img src="/afm-logo.png" alt="AFM" style={{ height: '45px' }} onError={(e: any) => e.target.style.display = 'none'} />
           <div>
             <div style={{ fontWeight: 'bold', fontSize: '16px', color: '#1a2a4a', letterSpacing: '1px' }}>APOSTOLIC FAITH MISSION</div>
             <div style={{ fontSize: '11px', color: '#e67e22', letterSpacing: '2px' }}>ZIMBABWE</div>
@@ -93,7 +92,7 @@ const fetchEvents = async () => {
               border: 'none', cursor: 'pointer',
               padding: '8px 16px', borderRadius: '20px', fontSize: '14px',
               color: activeSection === section ? 'white' : '#1a2a4a',
-              background: activeSection === section ? '#e67e22' : 'none',
+              background: activeSection === section ? '#e67e22' : 'transparent',
               fontWeight: activeSection === section ? 'bold' : 'normal',
               textTransform: 'capitalize', transition: 'all 0.2s'
             }}>{section === 'visit' ? 'Plan a Visit' : section.charAt(0).toUpperCase() + section.slice(1)}</button>
@@ -113,10 +112,8 @@ const fetchEvents = async () => {
         minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
         position: 'relative', overflow: 'hidden', padding: '60px 40px'
       }}>
-        {/* Decorative circles */}
         <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
         <div style={{ position: 'absolute', bottom: '-150px', left: '-100px', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(230,126,34,0.15)' }} />
-
         <div style={{ textAlign: 'center', color: 'white', position: 'relative', zIndex: 1, maxWidth: '800px' }}>
           <div style={{ fontSize: '64px', marginBottom: '16px' }}>✝️</div>
           <h1 style={{ fontSize: '52px', fontWeight: 'bold', margin: '0 0 8px', letterSpacing: '3px', lineHeight: 1.1 }}>
@@ -149,11 +146,10 @@ const fetchEvents = async () => {
               fontSize: '16px', fontWeight: 'bold'
             }}>View Announcements</button>
             <button onClick={() => navigate('/prayer-request')} style={{
-              padding: '16px 32px', background: 'transparent', color: 'white',
+              padding: '16px 32px', background: 'transparent', color: '#f0a500',
               border: '2px solid #f0a500', borderRadius: '30px', cursor: 'pointer',
-              fontSize: '16px', fontWeight: 'bold', color: '#f0a500'
+              fontSize: '16px', fontWeight: 'bold'
             }}>🙏 Prayer Request</button>
-            </div>
           </div>
         </div>
       </section>
@@ -186,11 +182,42 @@ const fetchEvents = async () => {
         </div>
       </section>
 
+      {/* EVENTS */}
+      <section id="events" style={{ padding: '80px 40px', background: '#fffaf5' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+            <div style={{ color: '#e67e22', fontSize: '13px', letterSpacing: '3px', marginBottom: '8px' }}>WHAT'S COMING</div>
+            <h2 style={{ fontSize: '40px', color: '#1a2a4a', margin: 0 }}>Upcoming Events</h2>
+            <div style={{ width: '60px', height: '4px', background: '#e67e22', margin: '16px auto 0', borderRadius: '2px' }} />
+          </div>
+          {events.filter(e => new Date(e.date) >= new Date()).length === 0 ? (
+            <div style={{ textAlign: 'center', color: '#999', padding: '40px' }}>No upcoming events at the moment.</div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+              {events.filter(e => new Date(e.date) >= new Date()).map((event, i) => (
+                <div key={event.id} style={{
+                  background: 'white', borderRadius: '16px', padding: '28px',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+                  borderLeft: `4px solid ${i % 2 === 0 ? '#e67e22' : '#1a2a4a'}`
+                }}>
+                  <h3 style={{ color: '#1a2a4a', fontSize: '20px', margin: '0 0 12px' }}>{event.title}</h3>
+                  <div style={{ display: 'flex', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                    <span style={{ color: '#e67e22', fontSize: '14px', fontWeight: 'bold' }}>
+                      📅 {new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                    </span>
+                    {event.time && <span style={{ color: '#6b7280', fontSize: '14px' }}>🕐 {event.time}</span>}
+                    {event.location && <span style={{ color: '#6b7280', fontSize: '14px' }}>📍 {event.location}</span>}
+                  </div>
+                  {event.description && <p style={{ color: '#666', lineHeight: 1.7, margin: 0 }}>{event.description}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* SERVICE TIMES */}
-      <section id="services" style={{
-        padding: '80px 40px',
-        background: 'linear-gradient(135deg, #1a2a4a, #2d4a7a)'
-      }}>
+      <section id="services" style={{ padding: '80px 40px', background: 'linear-gradient(135deg, #1a2a4a, #2d4a7a)' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ color: '#f0a500', fontSize: '13px', letterSpacing: '3px', marginBottom: '8px' }}>JOIN US</div>
           <h2 style={{ fontSize: '40px', color: 'white', marginBottom: '48px' }}>Service Times</h2>
@@ -200,10 +227,7 @@ const fetchEvents = async () => {
               { day: 'Wednesday', time: '06:00 PM', service: 'Bible Study', icon: '📖' },
               { day: 'Friday', time: '06:00 PM', service: 'Prayer Meeting', icon: '🙏' }
             ].map((s, i) => (
-              <div key={i} style={{
-                background: 'rgba(255,255,255,0.1)', borderRadius: '16px',
-                padding: '32px', border: '1px solid rgba(255,255,255,0.2)'
-              }}>
+              <div key={i} style={{ background: 'rgba(255,255,255,0.1)', borderRadius: '16px', padding: '32px', border: '1px solid rgba(255,255,255,0.2)' }}>
                 <div style={{ fontSize: '40px', marginBottom: '16px' }}>{s.icon}</div>
                 <div style={{ color: '#f0a500', fontWeight: 'bold', fontSize: '18px', marginBottom: '8px' }}>{s.day}</div>
                 <div style={{ color: 'white', fontSize: '28px', fontWeight: 'bold', marginBottom: '8px' }}>{s.time}</div>
@@ -215,7 +239,7 @@ const fetchEvents = async () => {
       </section>
 
       {/* ANNOUNCEMENTS */}
-      <section id="announcements" style={{ padding: '80px 40px', background: '#fffaf5' }}>
+      <section id="announcements" style={{ padding: '80px 40px', background: 'white' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
             <div style={{ color: '#e67e22', fontSize: '13px', letterSpacing: '3px', marginBottom: '8px' }}>LATEST NEWS</div>
@@ -228,7 +252,7 @@ const fetchEvents = async () => {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
               {announcements.slice(0, 4).map((a, i) => (
                 <div key={a.id} style={{
-                  background: 'white', borderRadius: '16px', padding: '28px',
+                  background: '#fffaf5', borderRadius: '16px', padding: '28px',
                   boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
                   borderLeft: `4px solid ${i % 2 === 0 ? '#e67e22' : '#1a2a4a'}`
                 }}>
@@ -243,42 +267,9 @@ const fetchEvents = async () => {
           )}
         </div>
       </section>
-      {/* EVENTS */}
-<section id="events" style={{ padding: '80px 40px', background: 'white' }}>
-  <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-    <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-      <div style={{ color: '#e67e22', fontSize: '13px', letterSpacing: '3px', marginBottom: '8px' }}>WHAT'S COMING</div>
-      <h2 style={{ fontSize: '40px', color: '#1a2a4a', margin: 0 }}>Upcoming Events</h2>
-      <div style={{ width: '60px', height: '4px', background: '#e67e22', margin: '16px auto 0', borderRadius: '2px' }} />
-    </div>
-    {events.length === 0 ? (
-      <div style={{ textAlign: 'center', color: '#999', padding: '40px' }}>No upcoming events at the moment.</div>
-    ) : (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
-        {events.filter(e => new Date(e.date) >= new Date()).map((event, i) => (
-          <div key={event.id} style={{
-            background: '#fffaf5', borderRadius: '16px', padding: '28px',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
-            borderLeft: `4px solid ${i % 2 === 0 ? '#e67e22' : '#1a2a4a'}`
-          }}>
-            <h3 style={{ color: '#1a2a4a', fontSize: '20px', margin: '0 0 12px' }}>{event.title}</h3>
-            <div style={{ display: 'flex', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
-              <span style={{ color: '#e67e22', fontSize: '14px', fontWeight: 'bold' }}>
-                📅 {new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-              </span>
-              {event.time && <span style={{ color: '#6b7280', fontSize: '14px' }}>🕐 {event.time}</span>}
-              {event.location && <span style={{ color: '#6b7280', fontSize: '14px' }}>📍 {event.location}</span>}
-            </div>
-            {event.description && <p style={{ color: '#666', lineHeight: 1.7, margin: 0 }}>{event.description}</p>}
-          </div>
-        ))}
-      </div>
-    )}
-  </div>
-</section>
 
       {/* VISITOR REGISTRATION */}
-      <section id="visit" style={{ padding: '80px 40px', background: 'white' }}>
+      <section id="visit" style={{ padding: '80px 40px', background: '#fffaf5' }}>
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <div style={{ color: '#e67e22', fontSize: '13px', letterSpacing: '3px', marginBottom: '8px' }}>FIRST TIME?</div>
@@ -286,25 +277,15 @@ const fetchEvents = async () => {
             <div style={{ width: '60px', height: '4px', background: '#e67e22', margin: '16px auto 0', borderRadius: '2px' }} />
             <p style={{ color: '#666', marginTop: '16px' }}>We'd love to meet you! Fill in your details and we'll be in touch.</p>
           </div>
-
           {submitted ? (
-            <div style={{
-              background: 'linear-gradient(135deg, #1a2a4a, #2d4a7a)',
-              borderRadius: '16px', padding: '48px', textAlign: 'center', color: 'white'
-            }}>
+            <div style={{ background: 'linear-gradient(135deg, #1a2a4a, #2d4a7a)', borderRadius: '16px', padding: '48px', textAlign: 'center', color: 'white' }}>
               <div style={{ fontSize: '64px', marginBottom: '16px' }}>🎉</div>
               <h3 style={{ fontSize: '24px', marginBottom: '12px' }}>Thank you for registering!</h3>
               <p style={{ color: '#aac4e0' }}>We look forward to welcoming you to our church family. God bless you!</p>
-              <button onClick={() => setSubmitted(false)} style={{
-                marginTop: '24px', padding: '12px 24px', background: '#e67e22',
-                color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer'
-              }}>Register Another</button>
+              <button onClick={() => setSubmitted(false)} style={{ marginTop: '24px', padding: '12px 24px', background: '#e67e22', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>Register Another</button>
             </div>
           ) : (
-            <div style={{
-              background: '#fffaf5', borderRadius: '16px', padding: '40px',
-              boxShadow: '0 4px 30px rgba(230,126,34,0.1)', border: '1px solid #ffe0c0'
-            }}>
+            <div style={{ background: 'white', borderRadius: '16px', padding: '40px', boxShadow: '0 4px 30px rgba(230,126,34,0.1)', border: '1px solid #ffe0c0' }}>
               <form onSubmit={handleVisitorSubmit}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                   <div>
@@ -332,32 +313,21 @@ const fetchEvents = async () => {
                     onChange={e => setVisitorForm({ ...visitorForm, phone: e.target.value })}
                     style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '14px', boxSizing: 'border-box' }} />
                 </div>
-                <button type="submit" style={{
-                  width: '100%', padding: '16px', background: 'linear-gradient(135deg, #e67e22, #f0a500)',
-                  color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer',
-                  fontSize: '16px', fontWeight: 'bold', letterSpacing: '1px'
-                }}>Register as Visitor 🙏</button>
+                <button type="submit" style={{ width: '100%', padding: '16px', background: 'linear-gradient(135deg, #e67e22, #f0a500)', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold', letterSpacing: '1px' }}>Register as Visitor 🙏</button>
               </form>
             </div>
           )}
         </div>
       </section>
-      <button onClick={() => navigate('/prayer-request')} style={{
-  padding: '16px 32px', background: 'transparent', color: 'white',
-  border: '2px solid white', borderRadius: '30px', cursor: 'pointer',
-  fontSize: '16px', fontWeight: 'bold'
-}}>🙏 Prayer Request</button>
 
       {/* FOOTER */}
-      <footer style={{
-        background: '#1a2a4a', color: 'white', padding: '40px',
-        textAlign: 'center'
-      }}>
+      <footer style={{ background: '#1a2a4a', color: 'white', padding: '40px', textAlign: 'center' }}>
         <div style={{ fontSize: '32px', marginBottom: '8px' }}>✝️</div>
         <div style={{ fontWeight: 'bold', fontSize: '18px', letterSpacing: '2px', marginBottom: '4px' }}>APOSTOLIC FAITH MISSION</div>
         <div style={{ color: '#aac4e0', marginBottom: '16px' }}>Spreading the Gospel of Jesus Christ</div>
         <div style={{ color: '#666', fontSize: '13px' }}>© {new Date().getFullYear()} Apostolic Faith Mission. All rights reserved.</div>
       </footer>
+
     </div>
   )
 }
