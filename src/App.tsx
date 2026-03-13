@@ -12,7 +12,7 @@ import Announcements from './pages/Announcements'
 import Events from './pages/Events'
 import PrayerRequests from './pages/PrayerRequests'
 import PrayerRequest from './pages/PrayerRequest'
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+import JoinChurch from './pages/JoinChurch'
 
 
 function App() {
@@ -30,6 +30,7 @@ function App() {
           <Route path="/finance" element={<ProtectedRoute><Finance /></ProtectedRoute>} />
           <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
           <Route path="/prayer-requests" element={<ProtectedRoute><PrayerRequests /></ProtectedRoute>} />
+          <Route path="/join-church" element={<JoinChurch />} />
          
         </Routes>
       </BrowserRouter>

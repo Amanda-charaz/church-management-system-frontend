@@ -102,6 +102,11 @@ const Home = () => {
             border: 'none', borderRadius: '20px', cursor: 'pointer',
             fontSize: '14px', fontWeight: 'bold', marginLeft: '8px'
           }}>Staff Login</button>
+          <button onClick={() => navigate('/join-church')} style={{
+            padding: '8px 20px', background: '#e67e22', color: 'white',
+            border: 'none', borderRadius: '20px', cursor: 'pointer',
+            fontSize: '14px', fontWeight: 'bold', marginLeft: '8px'
+          }}>Join Church</button>
         </div>
       </nav>
 
