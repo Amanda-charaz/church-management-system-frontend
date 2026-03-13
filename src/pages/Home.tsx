@@ -108,7 +108,6 @@ const Home = () => {
             fontSize: '14px', fontWeight: 'bold', marginLeft: '8px'
           }}>Join Church</button>
         </div>
-      </div>
       </nav>
 
       {/* HERO */}
