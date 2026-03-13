@@ -337,4 +337,5 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Home/ /   f o r c e   d e p l o y  
+ 
