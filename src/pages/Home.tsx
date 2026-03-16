@@ -11,7 +11,7 @@ interface Announcement {
 
 const Home = () => {
   const [announcements, setAnnouncements] = useState<Announcement[]>([])
-  const [verse, setVerse] = useState<any>(null)
+  const [verse, setVerse] = useState<{text:string, reference:string} | null>(null)
   const [visitorForm, setVisitorForm] = useState({ firstName: '', lastName: '', email: '', phone: '' })
   const [submitted, setSubmitted] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
@@ -337,5 +337,4 @@ const Home = () => {
   )
 }
 
-export default Home/ /   f o r c e   d e p l o y  
- 
+export default Home
