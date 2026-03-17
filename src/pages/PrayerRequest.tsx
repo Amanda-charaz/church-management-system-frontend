@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import API from '../api/axios'
 import { useNavigate } from 'react-router-dom'
 
-const PrayerRequest = (): JSX.Element=> {
+  const PrayerRequest = () => {
   const [form, setForm] = useState({ name: '', request: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)

@@ -11,10 +11,7 @@ interface Announcement {
 
 const Home = () => {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-  const [verse, setVerse] = useState<{
-    text: string;
-    reference: string;
-  } | null>(null);
+  const [verse, setVerse] = useState<{ text: string; reference: string } | null>(null);
   const [visitorForm, setVisitorForm] = useState({
     firstName: "",
     lastName: "",
@@ -42,6 +39,7 @@ const Home = () => {
       console.error("Error fetching events:", err);
     }
   };
+
   const fetchPrayers = async () => {
     try {
       const res = await API.get("/prayer");
@@ -143,36 +141,29 @@ const Home = () => {
         </div>
 
         <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          {[
-            "home",
-            "about",
-            "events",
-            "announcements",
-            "services",
-            "visit",
-          ].map((section) => (
-            <button
-              key={section}
-              onClick={() => scrollTo(section)}
-              style={{
-                border: "none",
-                cursor: "pointer",
-                padding: "8px 16px",
-                borderRadius: "20px",
-                fontSize: "14px",
-                color: activeSection === section ? "white" : "#1a2a4a",
-                background:
-                  activeSection === section ? "#e67e22" : "transparent",
-                fontWeight: activeSection === section ? "bold" : "normal",
-                textTransform: "capitalize",
-                transition: "all 0.2s",
-              }}
-            >
-              {section === "visit"
-                ? "Plan a Visit"
-                : section.charAt(0).toUpperCase() + section.slice(1)}
-            </button>
-          ))}
+          {["home", "about", "events", "announcements", "services", "visit"].map(
+            (section) => (
+              <button
+                key={section}
+                onClick={() => scrollTo(section)}
+                style={{
+                  border: "none",
+                  cursor: "pointer",
+                  padding: "8px 16px",
+                  borderRadius: "20px",
+                  fontSize: "14px",
+                  color: activeSection === section ? "white" : "#1a2a4a",
+                  background: activeSection === section ? "#e67e22" : "transparent",
+                  fontWeight: activeSection === section ? "bold" : "normal",
+                  textTransform: "capitalize",
+                }}
+              >
+                {section === "visit"
+                  ? "Plan a Visit"
+                  : section.charAt(0).toUpperCase() + section.slice(1)}
+              </button>
+            )
+          )}
 
           <button
             onClick={() => navigate("/login")}
@@ -324,66 +315,9 @@ const Home = () => {
               </p>
             </div>
           )}
-
-          <div
-            style={{
-              display: "flex",
-              gap: "16px",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            <button
-              onClick={() => scrollTo("visit")}
-              style={{
-                padding: "16px 32px",
-                background: "#e67e22",
-                color: "white",
-                border: "none",
-                borderRadius: "30px",
-                cursor: "pointer",
-                fontSize: "16px",
-                fontWeight: "bold",
-                letterSpacing: "1px",
-              }}
-            >
-              Plan Your Visit 🙏
-            </button>
-
-            <button
-              onClick={() => scrollTo("announcements")}
-              style={{
-                padding: "16px 32px",
-                background: "transparent",
-                color: "white",
-                border: "2px solid white",
-                borderRadius: "30px",
-                cursor: "pointer",
-                fontSize: "16px",
-                fontWeight: "bold",
-              }}
-            >
-              View Announcements
-            </button>
-
-            <button
-              onClick={() => navigate("/prayer-request")}
-              style={{
-                padding: "16px 32px",
-                background: "transparent",
-                color: "#f0a500",
-                border: "2px solid #f0a500",
-                borderRadius: "30px",
-                cursor: "pointer",
-                fontSize: "16px",
-                fontWeight: "bold",
-              }}
-            >
-              🙏 Prayer Request
-            </button>
-          </div>
         </div>
       </section>
+
       {/* PRAYER REQUESTS */}
       <section style={{ padding: "80px 40px", background: "#fff" }}>
         <h2
@@ -432,7 +366,9 @@ const Home = () => {
                 {p.name || "Anonymous"}
               </div>
 
-              <div style={{ color: "#444", lineHeight: 1.6 }}>{p.request}</div>
+              <div style={{ color: "#444", lineHeight: 1.6 }}>
+                {p.request}
+              </div>
             </div>
           ))}
         </div>
@@ -448,6 +384,7 @@ const Home = () => {
         }}
       >
         <div style={{ fontSize: "32px", marginBottom: "8px" }}>✝️</div>
+
         <div
           style={{
             fontWeight: "bold",
@@ -458,12 +395,13 @@ const Home = () => {
         >
           APOSTOLIC FAITH MISSION
         </div>
+
         <div style={{ color: "#aac4e0", marginBottom: "16px" }}>
           Spreading the Gospel of Jesus Christ
         </div>
+
         <div style={{ color: "#666", fontSize: "13px" }}>
-          © {new Date().getFullYear()} Apostolic Faith Mission. All rights
-          reserved.
+          © {new Date().getFullYear()} Apostolic Faith Mission. All rights reserved.
         </div>
       </footer>
     </div>
