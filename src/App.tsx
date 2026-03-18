@@ -14,6 +14,7 @@ import PrayerRequests from './pages/PrayerRequests'
 import PrayerRequest from './pages/PrayerRequest'
 import JoinChurch from './pages/JoinChurch'
 import Reports from './pages/Reports'
+import CellGroups from './pages/CellGroups'
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/prayer-requests" element={<ProtectedRoute><PrayerRequests /></ProtectedRoute>} />
           <Route path="/join-church" element={<JoinChurch />} />
           <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
+          <Route path="/cell-groups" element={<ProtectedRoute><CellGroups /></ProtectedRoute>} />
 
          
         </Routes>
