@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar'
 import API from '../api/axios'
 import { useAuth } from '../context/AuthContext'
@@ -87,8 +86,6 @@ const CellGroups = () => {
     <div style={{ display: 'flex', fontFamily: 'Arial, sans-serif' }}>
       <Sidebar />
       <div style={{ marginLeft: '240px', flex: 1, background: '#f0f4f8', minHeight: '100vh' }}>
-
-        {/* Header */}
         <div style={{
           background: 'white', padding: '16px 32px',
           display: 'flex', justifyContent: 'space-between',
@@ -107,8 +104,6 @@ const CellGroups = () => {
         </div>
 
         <div style={{ padding: '32px' }}>
-
-          {/* Form */}
           {showForm && (
             <div style={{
               background: 'white', borderRadius: '12px', padding: '24px',
@@ -168,7 +163,6 @@ const CellGroups = () => {
             </div>
           )}
 
-          {/* Cell Groups Grid */}
           {loading ? (
             <div style={{ textAlign: 'center', padding: '60px', color: '#6b7280' }}>Loading...</div>
           ) : cellGroups.length === 0 ? (
@@ -206,16 +200,16 @@ const CellGroups = () => {
                   <h3 style={{ color: '#1a2a4a', fontSize: '18px', margin: '0 0 8px' }}>{cg.name}</h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#6b7280', fontSize: '14px' }}>
-                      <span>👤</span> <span>{cg.leader}</span>
+                      <span>👤</span><span>{cg.leader}</span>
                     </div>
                     {cg.location && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#6b7280', fontSize: '14px' }}>
-                        <span>📍</span> <span>{cg.location}</span>
+                        <span>📍</span><span>{cg.location}</span>
                       </div>
                     )}
                     {cg.meetingDay && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#6b7280', fontSize: '14px' }}>
-                        <span>📅</span> <span>{cg.meetingDay}{cg.meetingTime ? ` at ${cg.meetingTime}` : ''}</span>
+                        <span>📅</span><span>{cg.meetingDay}{cg.meetingTime ? ` at ${cg.meetingTime}` : ''}</span>
                       </div>
                     )}
                   </div>
