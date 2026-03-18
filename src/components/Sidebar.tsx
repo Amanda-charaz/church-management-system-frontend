@@ -21,6 +21,7 @@ const Sidebar = () => {
     { path: '/events', label: 'Events', icon: '📅', roles: ['ADMIN', 'PASTOR'] },
     { path: '/prayer-requests', label: 'Prayer Requests', icon: '🙏', roles: ['ADMIN', 'PASTOR'] },
     { path: '/reports', label: 'Reports', icon: '📊', roles: ['ADMIN', 'PASTOR', 'FINANCE'] }
+    { path: '/cell-groups', label: 'Cell Groups', icon: '🏠', roles: ['ADMIN', 'PASTOR'] }
     
 
   ]
