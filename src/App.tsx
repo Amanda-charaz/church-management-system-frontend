@@ -16,6 +16,7 @@ import JoinChurch from './pages/JoinChurch'
 import Reports from './pages/Reports'
 import CellGroups from './pages/CellGroups'
 import ChangePassword from './pages/ChangePassword'
+import Analytics from './pages/Analytics'
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
           <Route path="/cell-groups" element={<ProtectedRoute><CellGroups /></ProtectedRoute>} />
           <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
+          <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
 
          
         </Routes>

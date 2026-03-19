@@ -35,6 +35,9 @@ const Sidebar = () => {
     { path: '/reports', label: 'Reports', icon: '📋', roles: ['ADMIN', 'PASTOR', 'FINANCE'] },
     { path: '/cell-groups', label: 'Cell Groups', icon: '🏠', roles: ['ADMIN', 'PASTOR'] },
     { path: '/change-password', label: 'Change Password', icon: '🔒', roles: ['ADMIN', 'PASTOR', 'FINANCE'] },
+    { path: '/analytics', label: 'Analytics', icon: '📈', roles: ['ADMIN', 'PASTOR'] },
+    
+
   ]
 
   const filteredMenu = menuItems.filter(item =>
