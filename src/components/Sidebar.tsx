@@ -24,17 +24,17 @@ const Sidebar = () => {
   }
 
   const menuItems = [
-    { path: '/dashboard', label: 'Dashboard', icon: '\uD83D\uDCCA', roles: ['ADMIN', 'PASTOR', 'FINANCE'] },
-    { path: '/members', label: 'Members', icon: '\uD83D\uDC65', roles: ['ADMIN', 'PASTOR'] },
-    { path: '/visitors', label: 'Visitors', icon: '\uD83D\uDE4B', roles: ['ADMIN', 'PASTOR'] },
-    { path: '/finance', label: 'Finance', icon: '\uD83D\uDCB0', roles: ['ADMIN', 'FINANCE'] },
-    { path: '/announcements', label: 'Announcements', icon: '\uD83D\uDCE2', roles: ['ADMIN', 'PASTOR'] },
-    { path: '/events', label: 'Events', icon: '\uD83D\uDCC5', roles: ['ADMIN', 'PASTOR'] },
-    { path: '/sermons', label: 'Sermons', icon: '\uD83C\uDFA4', roles: ['ADMIN', 'PASTOR'] },
-    { path: '/prayer-requests', label: 'Prayer Requests', icon: '\uD83D\uDE4F', roles: ['ADMIN', 'PASTOR'] },
-    { path: '/reports', label: 'Reports', icon: '\uD83D\uDCCB', roles: ['ADMIN', 'PASTOR', 'FINANCE'] },
-    { path: '/cell-groups', label: 'Cell Groups', icon: '\uD83C\uDFE0', roles: ['ADMIN', 'PASTOR'] },
-    { path: '/change-password', label: 'Change Password', icon: '\uD83D\uDD12', roles: ['ADMIN', 'PASTOR', 'FINANCE'] },
+    { path: '/dashboard', label: 'Dashboard', icon: '📊', roles: ['ADMIN', 'PASTOR', 'FINANCE'] },
+    { path: '/members', label: 'Members', icon: '👥', roles: ['ADMIN', 'PASTOR'] },
+    { path: '/visitors', label: 'Visitors', icon: '🙋', roles: ['ADMIN', 'PASTOR'] },
+    { path: '/finance', label: 'Finance', icon: '💰', roles: ['ADMIN', 'FINANCE'] },
+    { path: '/announcements', label: 'Announcements', icon: '📢', roles: ['ADMIN', 'PASTOR'] },
+    { path: '/events', label: 'Events', icon: '📅', roles: ['ADMIN', 'PASTOR'] },
+    { path: '/sermons', label: 'Sermons', icon: '🎤', roles: ['ADMIN', 'PASTOR'] },
+    { path: '/prayer-requests', label: 'Prayer Requests', icon: '🙏', roles: ['ADMIN', 'PASTOR'] },
+    { path: '/reports', label: 'Reports', icon: '📋', roles: ['ADMIN', 'PASTOR', 'FINANCE'] },
+    { path: '/cell-groups', label: 'Cell Groups', icon: '🏠', roles: ['ADMIN', 'PASTOR'] },
+    { path: '/change-password', label: 'Change Password', icon: '🔒', roles: ['ADMIN', 'PASTOR', 'FINANCE'] },
   ]
 
   const filteredMenu = menuItems.filter(item =>
