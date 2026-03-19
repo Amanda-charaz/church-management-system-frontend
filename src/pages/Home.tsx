@@ -139,7 +139,7 @@ const Home = () => {
         <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
         <div style={{ position: 'absolute', bottom: '-150px', left: '-100px', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(230,126,34,0.15)' }} />
         <div style={{ textAlign: 'center', color: 'white', position: 'relative', zIndex: 1, maxWidth: '800px' }}>
-          <div style={{ fontSize: '64px', marginBottom: '16px' }}>✝️</div>
+           <img src="/afm-logo.png" alt="AFM" style={{ height: '60px', marginBottom: '8px' }} onError={(e: any) => e.target.style.display = 'none'} />
           <h1 style={{ fontSize: '52px', fontWeight: 'bold', margin: '0 0 8px', letterSpacing: '3px', lineHeight: 1.1 }}>
             APOSTOLIC FAITH<br />
             <span style={{ color: '#f0a500' }}>MISSION</span>
@@ -378,7 +378,7 @@ const Home = () => {
 
       {/* FOOTER */}
       <footer style={{ background: '#1a2a4a', color: 'white', padding: '40px', textAlign: 'center' }}>
-        <div style={{ fontSize: '32px', marginBottom: '8px' }}>✝️</div>
+         <img src="/afm-logo.png" alt="AFM" style={{ height: '60px', marginBottom: '8px' }} onError={(e: any) => e.target.style.display = 'none'} />
         <div style={{ fontWeight: 'bold', fontSize: '18px', letterSpacing: '2px', marginBottom: '4px' }}>APOSTOLIC FAITH MISSION</div>
         <div style={{ color: '#aac4e0', marginBottom: '16px' }}>Spreading the Gospel of Jesus Christ</div>
         <div style={{ color: '#666', fontSize: '13px' }}>© {new Date().getFullYear()} Apostolic Faith Mission. All rights reserved.</div>

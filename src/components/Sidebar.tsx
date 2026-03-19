@@ -39,11 +39,7 @@ const Sidebar = () => {
       {/* Church Logo */}
       <div style={{ padding: '24px 20px', borderBottom: '1px solid #2d4a7a' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{
-            width: '44px', height: '44px', borderRadius: '50%',
-            background: '#f0a500', display: 'flex',
-            alignItems: 'center', justifyContent: 'center', fontSize: '20px'
-          }}>✝️</div>
+          <img src="/afm-logo.png" alt="AFM" style={{ height: '44px', width: '44px', borderRadius: '50%', objectFit: 'cover' }} onError={(e: any) => e.target.style.display = 'none'} />
           <div>
             <div style={{ color: 'white', fontWeight: 'bold', fontSize: '13px', letterSpacing: '1px' }}>
               AFM in Zimbabwe
