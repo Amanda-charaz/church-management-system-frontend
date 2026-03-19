@@ -11,6 +11,9 @@ interface Member {
   email: string
   department: string
   status: string
+  approved: boolean
+  baptized: boolean
+  address: string
 }
 
 const Members = () => {
@@ -18,6 +21,7 @@ const Members = () => {
   const [members, setMembers] = useState<Member[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
+  const [activeTab, setActiveTab] = useState<'approved' | 'pending'>('approved')
   const [form, setForm] = useState({
     firstName: '', lastName: '', phone: '', email: '', department: ''
   })
@@ -57,10 +61,22 @@ const Members = () => {
     }
   }
 
+  const handleApprove = async (id: string) => {
+    try {
+      await API.put(`/members/${id}/approve`, {})
+      fetchMembers()
+    } catch (err) {
+      console.error('Error approving member:', err)
+    }
+  }
+
+  const approvedMembers = members.filter(m => m.approved)
+  const pendingMembers = members.filter(m => !m.approved)
+
   return (
     <div style={{ display: 'flex', fontFamily: 'Arial, sans-serif' }}>
       <Sidebar />
-      <div style={{ marginLeft: window.innerWidth < 768 ? '0' : '240px', flex: 1, background: '#f0f4f8', minHeight: '100vh', paddingTop: window.innerWidth < 768 ? '60px' : '0' }}>
+      <div style={{ marginLeft: '240px', flex: 1, background: '#f0f4f8', minHeight: '100vh' }}>
 
         {/* Header */}
         <div style={{
@@ -73,15 +89,10 @@ const Members = () => {
             <p style={{ margin: 0, color: '#6b7280', fontSize: '14px' }}>Manage church members</p>
           </div>
           {(user?.role === 'ADMIN' || user?.role === 'PASTOR') && (
-            <button
-              onClick={() => setShowForm(!showForm)}
-              style={{
-                padding: '10px 20px', background: '#1a2a4a', color: 'white',
-                border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold'
-              }}
-            >
-              + Add Member
-            </button>
+            <button onClick={() => setShowForm(!showForm)} style={{
+              padding: '10px 20px', background: '#1a2a4a', color: 'white',
+              border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold'
+            }}>+ Add Member</button>
           )}
         </div>
 
@@ -95,7 +106,7 @@ const Members = () => {
             }}>
               <h3 style={{ marginTop: 0, color: '#1a2a4a' }}>Add New Member</h3>
               <form onSubmit={handleAdd}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
                   {[
                     { label: 'First Name', key: 'firstName', type: 'text' },
                     { label: 'Last Name', key: 'lastName', type: 'text' },
@@ -104,18 +115,11 @@ const Members = () => {
                     { label: 'Department', key: 'department', type: 'text' },
                   ].map(field => (
                     <div key={field.key}>
-                      <label style={{ display: 'block', marginBottom: '6px', color: '#374151', fontSize: '14px' }}>
-                        {field.label}
-                      </label>
-                      <input
-                        type={field.type}
+                      <label style={{ display: 'block', marginBottom: '6px', color: '#374151', fontSize: '14px' }}>{field.label}</label>
+                      <input type={field.type}
                         value={form[field.key as keyof typeof form]}
                         onChange={e => setForm({ ...form, [field.key]: e.target.value })}
-                        style={{
-                          width: '100%', padding: '10px', borderRadius: '8px',
-                          border: '1px solid #d1d5db', fontSize: '14px', boxSizing: 'border-box'
-                        }}
-                      />
+                        style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '14px', boxSizing: 'border-box' }} />
                     </div>
                   ))}
                 </div>
@@ -133,67 +137,114 @@ const Members = () => {
             </div>
           )}
 
-          {/* Members List */}
+          {/* Tabs */}
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '20px' }}>
+            <button onClick={() => setActiveTab('approved')} style={{
+              padding: '10px 24px', borderRadius: '8px', border: 'none', cursor: 'pointer',
+              background: activeTab === 'approved' ? '#1a2a4a' : 'white',
+              color: activeTab === 'approved' ? 'white' : '#374151',
+              fontWeight: 'bold', fontSize: '14px',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.06)'
+            }}>
+              ✅ Approved ({approvedMembers.length})
+            </button>
+            <button onClick={() => setActiveTab('pending')} style={{
+              padding: '10px 24px', borderRadius: '8px', border: 'none', cursor: 'pointer',
+              background: activeTab === 'pending' ? '#e67e22' : 'white',
+              color: activeTab === 'pending' ? 'white' : '#374151',
+              fontWeight: 'bold', fontSize: '14px',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.06)',
+              position: 'relative'
+            }}>
+              ⏳ Pending Approval ({pendingMembers.length})
+              {pendingMembers.length > 0 && (
+                <span style={{
+                  position: 'absolute', top: '-6px', right: '-6px',
+                  background: '#dc2626', color: 'white', borderRadius: '50%',
+                  width: '20px', height: '20px', fontSize: '11px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>{pendingMembers.length}</span>
+              )}
+            </button>
+          </div>
+
+          {/* Members Table */}
           <div style={{
             background: 'white', borderRadius: '12px',
             boxShadow: '0 2px 8px rgba(0,0,0,0.08)', overflow: 'hidden'
           }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: '#f9fafb' }}>
-                  {['Name', 'Phone', 'Email', 'Department', 'Status', 'Actions'].map(h => (
-                    <th key={h} style={{
-                      padding: '12px 16px', textAlign: 'left',
-                      color: '#6b7280', fontSize: '13px', fontWeight: '600',
-                      borderBottom: '1px solid #e5e7eb'
-                    }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {loading ? (
-                  <tr><td colSpan={6} style={{ textAlign: 'center', padding: '32px', color: '#6b7280' }}>Loading...</td></tr>
-                ) : members.length === 0 ? (
-                  <tr><td colSpan={6} style={{ textAlign: 'center', padding: '32px', color: '#6b7280' }}>No members found</td></tr>
-                ) : members.map(member => (
-                  <tr key={member.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                    <td style={{ padding: '12px 16px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <div style={{
-                          width: '36px', height: '36px', borderRadius: '50%',
-                          background: '#1a2a4a', color: 'white',
-                          display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold'
-                        }}>
-                          {member.firstName.charAt(0)}
-                        </div>
-                        <span style={{ fontWeight: '500' }}>{member.firstName} {member.lastName}</span>
-                      </div>
-                    </td>
-                    <td style={{ padding: '12px 16px', color: '#6b7280' }}>{member.phone || '-'}</td>
-                    <td style={{ padding: '12px 16px', color: '#6b7280' }}>{member.email || '-'}</td>
-                    <td style={{ padding: '12px 16px', color: '#6b7280' }}>{member.department || '-'}</td>
-                    <td style={{ padding: '12px 16px' }}>
-                      <span style={{
-                        padding: '4px 10px', borderRadius: '20px', fontSize: '12px',
-                        background: member.status === 'ACTIVE' ? '#dcfce7' : '#fee2e2',
-                        color: member.status === 'ACTIVE' ? '#16a34a' : '#dc2626'
-                      }}>{member.status}</span>
-                    </td>
-                    <td style={{ padding: '12px 16px' }}>
-                      {user?.role === 'ADMIN' && (
-                        <button
-                          onClick={() => handleDelete(member.id)}
-                          style={{
-                            padding: '6px 12px', background: '#fee2e2', color: '#dc2626',
-                            border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px'
-                          }}
-                        >Delete</button>
-                      )}
-                    </td>
+            {activeTab === 'pending' && pendingMembers.length > 0 && (
+              <div style={{ padding: '12px 16px', background: '#fff7ed', borderBottom: '1px solid #fed7aa' }}>
+                <p style={{ margin: 0, color: '#c2410c', fontSize: '14px' }}>
+                  ⚠️ These members registered via the public form and are waiting for approval.
+                </p>
+              </div>
+            )}
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ background: '#f9fafb' }}>
+                    {['Name', 'Phone', 'Email', 'Department', 'Baptized', 'Actions'].map(h => (
+                      <th key={h} style={{
+                        padding: '12px 16px', textAlign: 'left',
+                        color: '#6b7280', fontSize: '13px', fontWeight: '600',
+                        borderBottom: '1px solid #e5e7eb', whiteSpace: 'nowrap'
+                      }}>{h}</th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <tr><td colSpan={6} style={{ textAlign: 'center', padding: '32px', color: '#6b7280' }}>Loading...</td></tr>
+                  ) : (activeTab === 'approved' ? approvedMembers : pendingMembers).length === 0 ? (
+                    <tr><td colSpan={6} style={{ textAlign: 'center', padding: '32px', color: '#6b7280' }}>
+                      {activeTab === 'pending' ? 'No pending registrations 🎉' : 'No approved members yet'}
+                    </td></tr>
+                  ) : (activeTab === 'approved' ? approvedMembers : pendingMembers).map(member => (
+                    <tr key={member.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                      <td style={{ padding: '12px 16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <div style={{
+                            width: '36px', height: '36px', borderRadius: '50%',
+                            background: '#1a2a4a', color: 'white',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', flexShrink: 0
+                          }}>
+                            {member.firstName.charAt(0)}
+                          </div>
+                          <span style={{ fontWeight: '500' }}>{member.firstName} {member.lastName}</span>
+                        </div>
+                      </td>
+                      <td style={{ padding: '12px 16px', color: '#6b7280', whiteSpace: 'nowrap' }}>{member.phone || '-'}</td>
+                      <td style={{ padding: '12px 16px', color: '#6b7280' }}>{member.email || '-'}</td>
+                      <td style={{ padding: '12px 16px', color: '#6b7280' }}>{member.department || '-'}</td>
+                      <td style={{ padding: '12px 16px' }}>
+                        <span style={{
+                          padding: '4px 10px', borderRadius: '20px', fontSize: '12px',
+                          background: member.baptized ? '#dcfce7' : '#f3f4f6',
+                          color: member.baptized ? '#16a34a' : '#6b7280'
+                        }}>{member.baptized ? 'Yes' : 'No'}</span>
+                      </td>
+                      <td style={{ padding: '12px 16px' }}>
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                          {!member.approved && user?.role === 'ADMIN' && (
+                            <button onClick={() => handleApprove(member.id)} style={{
+                              padding: '6px 12px', background: '#dcfce7', color: '#16a34a',
+                              border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold'
+                            }}>✅ Approve</button>
+                          )}
+                          {user?.role === 'ADMIN' && (
+                            <button onClick={() => handleDelete(member.id)} style={{
+                              padding: '6px 12px', background: '#fee2e2', color: '#dc2626',
+                              border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px'
+                            }}>Delete</button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -202,4 +253,3 @@ const Members = () => {
 }
 
 export default Members
-
