@@ -87,7 +87,7 @@ const Home = () => {
   }
 
   return (
-    <div style={{ fontFamily: "'Georgia', serif", background: '#fffaf5', minHeight: '100vh' }}>
+    <div style={{ fontFamily: "'Georgia', serif", background: '#fffaf5', minHeight: '100vh', paddingTop: window.innerWidth < 768 ? '60px' : '0' }}>
 
       {/* NAV */}
       <nav style={{
@@ -389,3 +389,4 @@ const Home = () => {
 }
 
 export default Home
+

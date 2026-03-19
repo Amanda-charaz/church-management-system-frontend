@@ -202,7 +202,7 @@ const Reports = () => {
   return (
     <div style={{ display: 'flex', fontFamily: 'Arial, sans-serif' }}>
       <Sidebar />
-      <div style={{ marginLeft: '240px', flex: 1, background: '#f0f4f8', minHeight: '100vh' }}>
+      <div style={{ marginLeft: window.innerWidth < 768 ? '0' : '240px', flex: 1, background: '#f0f4f8', minHeight: '100vh', paddingTop: window.innerWidth < 768 ? '60px' : '0' }}>
 
         {/* Header */}
         <div style={{
@@ -276,3 +276,4 @@ const Reports = () => {
 }
 
 export default Reports
+
