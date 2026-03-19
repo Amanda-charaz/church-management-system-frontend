@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "AFM Zimbabwe",
+  "name": "Apostolic Faith Mission Zimbabwe",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,18 +8,20 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "afm-logo.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "afm-logo.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#1a2a4a",
+  "background_color": "#fffaf5",
+  "description": "Apostolic Faith Mission Zimbabwe Church Management",
+  "orientation": "portrait"
 }
