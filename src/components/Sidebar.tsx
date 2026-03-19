@@ -34,6 +34,7 @@ const Sidebar = () => {
     { path: '/prayer-requests', label: 'Prayer Requests', icon: '🙏', roles: ['ADMIN', 'PASTOR'] },
     { path: '/reports', label: 'Reports', icon: '📋', roles: ['ADMIN', 'PASTOR', 'FINANCE'] },
     { path: '/cell-groups', label: 'Cell Groups', icon: '🏠', roles: ['ADMIN', 'PASTOR'] },
+    { path: '/change-password', label: 'Change Password', icon: '🔒', roles: ['ADMIN', 'PASTOR', 'FINANCE'] }
   ]
 
   const filteredMenu = menuItems.filter(item =>
