@@ -25,12 +25,14 @@ const Home = () => {
   const [submitted, setSubmitted] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
   const [events, setEvents] = useState<Event[]>([])
+  const [cellGroups, setCellGroups] = useState<any[]>([])
   const navigate = useNavigate()
 
   useEffect(() => {
     fetchAnnouncements()
     fetchVerse()
     fetchEvents()
+    fetchCellGroups()
   }, [])
 
   const fetchEvents = async () => {
@@ -41,6 +43,14 @@ const Home = () => {
       console.error('Error fetching events:', err)
     }
   }
+  const fetchCellGroups = async () => {
+  try {
+    const res = await API.get('/cellgroups/public')
+    setCellGroups(res.data.cellGroups || [])
+  } catch (err) {
+    console.error('Error fetching cell groups:', err)
+  }
+}
 
   const fetchAnnouncements = async () => {
     try {
@@ -275,6 +285,38 @@ const Home = () => {
                   </div>
                   <h3 style={{ color: '#1a2a4a', fontSize: '20px', margin: '0 0 12px' }}>{a.title}</h3>
                   <p style={{ color: '#666', lineHeight: 1.7, margin: 0 }}>{a.content}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+      {/* CELL GROUPS */}
+      <section id="cellgroups" style={{ padding: '80px 40px', background: '#fffaf5' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+            <div style={{ color: '#e67e22', fontSize: '13px', letterSpacing: '3px', marginBottom: '8px' }}>SMALL GROUPS</div>
+            <h2 style={{ fontSize: '40px', color: '#1a2a4a', margin: 0 }}>Cell Groups</h2>
+            <div style={{ width: '60px', height: '4px', background: '#e67e22', margin: '16px auto 0', borderRadius: '2px' }} />
+            <p style={{ color: '#666', marginTop: '16px' }}>Join a cell group near you and grow together in faith.</p>
+          </div>
+          {cellGroups.length === 0 ? (
+            <div style={{ textAlign: 'center', color: '#999', padding: '40px' }}>No cell groups at the moment.</div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+              {cellGroups.map((cg: any, i: number) => (
+                <div key={cg.id} style={{
+                  background: 'white', borderRadius: '16px', padding: '28px',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+                  borderTop: `4px solid ${i % 3 === 0 ? '#1a2a4a' : i % 3 === 1 ? '#e67e22' : '#16a34a'}`
+                }}>
+                  <div style={{ fontSize: '36px', marginBottom: '12px' }}>🏠</div>
+                  <h3 style={{ color: '#1a2a4a', fontSize: '18px', margin: '0 0 12px' }}>{cg.name}</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    <div style={{ color: '#6b7280', fontSize: '14px' }}>👤 {cg.leader}</div>
+                    {cg.location && <div style={{ color: '#6b7280', fontSize: '14px' }}>📍 {cg.location}</div>}
+                    {cg.meetingDay && <div style={{ color: '#e67e22', fontSize: '14px', fontWeight: 'bold' }}>📅 {cg.meetingDay}{cg.meetingTime ? ` at ${cg.meetingTime}` : ''}</div>}
+                  </div>
                 </div>
               ))}
             </div>
